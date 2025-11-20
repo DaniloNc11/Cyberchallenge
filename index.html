@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CYBER CHALLENGE - Boss Fight Finale</title>
-    <style id="dynamic-style"></style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&family=Noto+Sans+Symbols+2&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <canvas class="matrix-bg" id="matrix"></canvas>
@@ -38,78 +41,54 @@
         </div>
 
         <div id="gameContent"></div>
-        
-        <!-- Tutorial rimosso -->
     </div>
-
-    <!-- Bottone help rimosso -->
 
     <button id="guideFab" class="guide-fab" aria-label="Guida alle cifrature" title="Guida alle cifrature">?</button>
 
     <script>
-        // Funzione per decodificare stringhe offuscate
-        function decode(encoded) {
-            return atob(encoded); 
+        // Audio context for sounds
+        let audioContext;
+        
+        function playBeep(frequency, duration) {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.value = frequency;
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration/1000);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration/1000);
+                
+                return true;
+            } catch (e) {
+                console.warn('Web Audio API not supported');
+                return false;
+            }
         }
-
-        // Funzione per applicare gli stili
-        function applyStyles(css) {
-            const style = document.createElement('style');
-            style.textContent = css;
-            document.head.appendChild(style);
-            document.body.style.visibility = 'visible';
-        }
-
-        // Funzione per caricare il JavaScript offuscato
-        function loadScript(encodedScript) {
-            const script = document.createElement('script');
-            script.text = atob(encodedScript);
-            document.body.appendChild(script);
-        }
-
-        // Funzione per inizializzare l'applicazione
-        function initApp() {
-            // Carica i font di Google
-            const fontLink = document.createElement('link');
-            fontLink.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap';
-            fontLink.rel = 'stylesheet';
-            document.head.appendChild(fontLink);
-
-            // Carica il CSS dal file esterno
-            fetch('style.css')
-                .then(response => response.text())
-                .then(css => {
-                    // Codifica il CSS in base64 per nasconderlo
-                    const encodedCss = btoa(unescape(encodeURIComponent(css)));
-                    // Applica gli stili decodificandoli al volo
-                    applyStyles(decode(encodedCss));
-                    
-                    // Dopo aver caricato il CSS, carica il JS
-                    return fetch('game.js');
-                })
-                .then(response => response.text())
-                .then(js => {
-                    // Codifica il JS in base64 per nasconderlo
-                    const encodedJs = btoa(unescape(encodeURIComponent(js)));
-                    // Esegui il codice JS decodificandolo al volo
-                    loadScript(encodedJs);
-                });
-
-            // Carica i file audio
-            ['correct.mp3', 'incorrect.mp3', 'levelup.mp3'].forEach((file, i) => {
-                const audio = document.createElement('audio');
-                audio.id = file.split('.')[0] + '-sound';
-                audio.src = file;
-                document.body.appendChild(audio);
-            });
-        }
-
-        // Avvia l'applicazione quando il documento è pronto
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initApp);
-        } else {
-            initApp();
-        }
+        
+        window.playCorrectSound = function() {
+            playBeep(880, 200);
+        };
+        
+        window.playIncorrectSound = function() {
+            playBeep(220, 300);
+        };
+        
+        window.playLevelUpSound = function() {
+            playBeep(1046.5, 300);
+        };
     </script>
+    <script src="game.js"></script>
 </body>
 </html>
