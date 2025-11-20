@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Roboto+Mono:wght@400;700&display=swap');
 
 * {
     margin: 0;
@@ -8,6 +9,39 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga' 1, 'tnum' 1, 'kern' 1;
+    -webkit-font-feature-settings: 'liga' 1, 'tnum' 1, 'kern' 1;
+}
+
+/* Stili per i caratteri speciali */
+.option-card {
+    position: relative;
+    padding-left: 30px;
+}
+
+.option-card::before {
+    content: '→';
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    position: absolute;
+    left: 15px;
+    font-weight: bold;
+}
+
+.option-card.solved::before {
+    content: '✓';
+    color: #00FF00;
+}
+
+/* Forza il rendering dei caratteri speciali */
+.arrow, .checkmark, .symbol {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0 2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga' 1;
 }
 
 body {
