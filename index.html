@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER CHALLENGE - Boss Fight Finale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="container" id="gameContainer">
+        <h1 id="mainTitle">⚡ CYBER CHALLENGE ⚡</h1>
+        <p class="subtitle">Decodifica il mistero nascosto...</p>
+        
+        <div id="startScreen" class="start-screen">
+            <h2>Benvenuto in CYBER CHALLENGE</h2>
+            <p class="start-description">Metti alla prova le tue abilità di critto-hacker: decodifica cifrature, supera i livelli e sconfiggi il Boss finale.</p>
+            <div class="start-buttons">
+                <button id="startGameBtn">Inizia nuova sfida</button>
+                <button id="continueGameBtn" class="hidden">Continua partita</button>
+            </div>
+        </div>
+
+        <div class="stats hidden" id="statsPanel">
+            <div class="stat-item">
+                <div class="stat-label">LIVELLO</div>
+                <div class="stat-value" id="levelDisplay">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">TENTATIVI FALLITI</div>
+                <div class="stat-value" id="failedAttempts">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">STRINGHE RISOLTE</div>
+                <div class="stat-value" id="totalSolved">0</div>
+            </div>
+        </div>
+
+        <div id="gameContent"></div>
+        
+        <!-- Tutorial rimosso -->
+    </div>
+
+    <!-- Bottone help rimosso -->
+
+    <button id="guideFab" class="guide-fab" aria-label="Guida alle cifrature" title="Guida alle cifrature">?</button>
+
+    <audio id="correct-sound" src="correct.mp3"></audio>
+    <audio id="incorrect-sound" src="incorrect.mp3"></audio>
+    <audio id="levelup-sound" src="levelup.mp3"></audio>
+    <script src="game.js"></script>
+</body>
+</html>
