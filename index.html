@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CYBER CHALLENGE - Boss Fight Finale</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style id="dynamic-style"></style>
 </head>
 <body>
     <canvas class="matrix-bg" id="matrix"></canvas>
@@ -52,6 +49,28 @@
     <audio id="correct-sound" src="correct.mp3"></audio>
     <audio id="incorrect-sound" src="incorrect.mp3"></audio>
     <audio id="levelup-sound" src="levelup.mp3"></audio>
-    <script src="game.js"></script>
+    <script>
+        // Caricamento dinamico degli stili
+        const loadStyles = () => {
+            const styleContent = `
+                @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap');
+                ${localStorage.getItem('savedStyles') || ''}
+            `;
+            document.getElementById('dynamic-style').textContent = styleContent;
+            
+            // Caricamento dello script
+            const script = document.createElement('script');
+            script.src = 'game.js';
+            script.defer = true;
+            document.body.appendChild(script);
+        };
+        
+        // Carica gli stili e lo script quando il DOM è pronto
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadStyles);
+        } else {
+            loadStyles();
+        }
+    </script>
 </body>
 </html>
