@@ -46,30 +46,69 @@
 
     <button id="guideFab" class="guide-fab" aria-label="Guida alle cifrature" title="Guida alle cifrature">?</button>
 
-    <audio id="correct-sound" src="correct.mp3"></audio>
-    <audio id="incorrect-sound" src="incorrect.mp3"></audio>
-    <audio id="levelup-sound" src="levelup.mp3"></audio>
     <script>
-        // Caricamento dinamico degli stili
-        const loadStyles = () => {
-            const styleContent = `
-                @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap');
-                ${localStorage.getItem('savedStyles') || ''}
-            `;
-            document.getElementById('dynamic-style').textContent = styleContent;
-            
-            // Caricamento dello script
+        // Funzione per decodificare stringhe offuscate
+        function decode(encoded) {
+            return atob(encoded);
+        }
+
+        // Funzione per applicare gli stili
+        function applyStyles(css) {
+            const style = document.createElement('style');
+            style.textContent = css;
+            document.head.appendChild(style);
+            document.body.style.visibility = 'visible';
+        }
+
+        // Funzione per caricare il JavaScript offuscato
+        function loadScript(encodedScript) {
             const script = document.createElement('script');
-            script.src = 'game.js';
-            script.defer = true;
+            script.text = atob(encodedScript);
             document.body.appendChild(script);
-        };
-        
-        // Carica gli stili e lo script quando il DOM è pronto
+        }
+
+        // Funzione per inizializzare l'applicazione
+        function initApp() {
+            // Carica i font di Google
+            const fontLink = document.createElement('link');
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap';
+            fontLink.rel = 'stylesheet';
+            document.head.appendChild(fontLink);
+
+            // Carica il CSS dal file esterno
+            fetch('style.css')
+                .then(response => response.text())
+                .then(css => {
+                    // Codifica il CSS in base64 per nasconderlo
+                    const encodedCss = btoa(unescape(encodeURIComponent(css)));
+                    // Applica gli stili decodificandoli al volo
+                    applyStyles(decode(encodedCss));
+                    
+                    // Dopo aver caricato il CSS, carica il JS
+                    return fetch('game.js');
+                })
+                .then(response => response.text())
+                .then(js => {
+                    // Codifica il JS in base64 per nasconderlo
+                    const encodedJs = btoa(unescape(encodeURIComponent(js)));
+                    // Esegui il codice JS decodificandolo al volo
+                    loadScript(encodedJs);
+                });
+
+            // Carica i file audio
+            ['correct.mp3', 'incorrect.mp3', 'levelup.mp3'].forEach((file, i) => {
+                const audio = document.createElement('audio');
+                audio.id = file.split('.')[0] + '-sound';
+                audio.src = file;
+                document.body.appendChild(audio);
+            });
+        }
+
+        // Avvia l'applicazione quando il documento è pronto
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadStyles);
+            document.addEventListener('DOMContentLoaded', initApp);
         } else {
-            loadStyles();
+            initApp();
         }
     </script>
 </body>
