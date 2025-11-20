@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -180,14 +186,21 @@ body.pre-boss-glitch {
     80% { transform: translateX(2px) skew(-1deg); }
 }
 
-h1 {
-    font-family: 'Orbitron', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', 'Share Tech Mono', monospace, sans-serif;
     text-align: center;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
     font-size: 3em;
     margin-bottom: 10px;
     color: #32CD32;
     text-shadow: 0 0 15px #32CD32;
-    letter-spacing: 3px;
     transition: all 0.8s ease;
 }
 
