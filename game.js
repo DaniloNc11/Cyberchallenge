@@ -3,7 +3,7 @@ const SECRET_ANSWERS = [
     "ONLYFANS",
     "PASSWORD",
     "SECURITY",
-    "HACKER",
+    "HACKER", 
     "CYBER"
 ]; // Le parole finali per sconfiggere il boss
 
